@@ -1,0 +1,20 @@
+# Oficjalny, lekki obraz Pythona
+FROM python:3.11-slim
+
+# Ustawienie katalogu roboczego
+WORKDIR /app
+
+# Instalacja podstawowych narzędzi systemowych
+RUN apt-get update && apt-get install -y --no-install-recommends \
+    build-essential \
+    && rm -rf /var/lib/apt/lists/*
+
+# Kopiowanie i instalacja zależności Pythona
+COPY requirements.txt .
+RUN pip install --no-cache-dir -r requirements.txt
+
+# Kopiowanie kodu źródłowego do kontenera
+COPY . .
+
+# Domyślne uruchomienie aplikacji
+CMD ["python", "-m", "app.gui"]
